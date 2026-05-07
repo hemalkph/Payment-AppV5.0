@@ -1217,22 +1217,66 @@ h6 {
 }
 
 /* ===================================================
-   Footer
+   Footer — Glassmorphism
    =================================================== */
 .footer {
   position: relative;
   z-index: 1;
-  background: var(--clr-surface);
-  border-top: 1px solid var(--clr-surface-border-light);
-  padding: 2.5rem 0 1.5rem;
+  background: linear-gradient(135deg, #1a0533 0%, #2d1050 25%, #4c1d95 55%, #312e81 80%, #1e1b4b 100%);
+  padding: 0;
   margin-top: 3rem;
+  overflow: hidden;
 }
 
-.footer--glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(147, 51, 234, 0.1);
+/* Decorative background orbs */
+.footer__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.footer__orb--1 {
+  width: 320px;
+  height: 320px;
+  background: rgba(168, 85, 247, 0.35);
+  top: -100px;
+  right: -60px;
+  animation: floatShape 20s ease-in-out infinite alternate;
+}
+
+.footer__orb--2 {
+  width: 260px;
+  height: 260px;
+  background: rgba(79, 70, 229, 0.3);
+  bottom: -80px;
+  left: -40px;
+  animation: floatShape 25s ease-in-out infinite alternate-reverse;
+}
+
+/* Noise texture on footer */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Frosted glass inner container */
+.footer__glass {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  margin: 2rem 1.5rem 0;
+  padding: 2.5rem 2.5rem 1.5rem;
 }
 
 .footer__grid {
@@ -1245,24 +1289,27 @@ h6 {
   font-family: var(--ff-heading);
   font-size: var(--fs-xl);
   font-weight: 700;
-  color: var(--clr-primary-600);
+  color: #fff;
   margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .footer__brand-desc {
-  color: var(--clr-text-500);
+  color: rgba(255, 255, 255, 0.55);
   font-size: var(--fs-sm);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .footer__heading {
   font-family: var(--ff-heading);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   font-weight: 600;
-  color: var(--clr-text-900);
+  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.85rem;
 }
 
 .footer__links {
@@ -1270,42 +1317,90 @@ h6 {
 }
 
 .footer__links li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
 }
 
 .footer__links a {
-  color: var(--clr-text-500);
+  color: rgba(255, 255, 255, 0.65);
   font-size: var(--fs-sm);
   transition: all var(--transition-fast);
 }
 
 .footer__links a:hover {
-  color: var(--clr-primary-500);
+  color: #fff;
   padding-left: 4px;
 }
 
 .footer__contact-item {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  color: var(--clr-text-500);
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.65);
   font-size: var(--fs-sm);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer__contact-item svg {
   width: 16px;
   height: 16px;
-  color: var(--clr-primary-500);
+  color: #a855f7;
   flex-shrink: 0;
 }
 
+/* Footer action buttons */
+.footer__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  font-family: var(--ff-body);
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.footer__btn svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.footer__btn--email {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer__btn--email:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.footer__btn--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128C7E);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+}
+
+.footer__btn--whatsapp:hover {
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
 .footer__bottom {
-  border-top: 1px solid var(--clr-surface-border-light);
-  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1.75rem;
   padding-top: 1.25rem;
   text-align: center;
-  color: var(--clr-text-400);
+  color: rgba(255, 255, 255, 0.3);
   font-size: var(--fs-xs);
 }
 
@@ -2068,7 +2163,13 @@ h6 {
 
   .footer__grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .footer__glass {
+    margin: 1.5rem 0.75rem 0;
+    padding: 1.75rem 1.5rem 1.25rem;
+    border-radius: 18px 18px 0 0;
   }
 
   .card {

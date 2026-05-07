@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refund & Payment Policy — pasinduathukorala.lk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --blue-50: #faf5ff;
+            --blue-100: #f3e8ff;
+            --blue-400: #a855f7;
+            --blue-600: #9333ea;
+            --blue-800: #7c3aed;
+            --blue-900: #6d28d9;
+            --green-50: #EAF3DE;
+            --green-800: #27500A;
+            --red-50: #FCEBEB;
+            --red-800: #791F1F;
+            --amber-50: #FAEEDA;
+            --amber-800: #633806;
+            --gray-50: #F7F6F2;
+            --gray-100: #EDECE8;
+            --gray-300: #C8C7C0;
+            --gray-500: #7A7970;
+            --gray-700: #4A4945;
+            --gray-900: #1E1E1C;
+            --text-primary: #1E1E1C;
+            --text-secondary: #5A5955;
+            --text-muted: #8A8980;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: #f9fafb;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #9333ea 0%, #6d28d9 40%, #4f46e5 100%);
+            padding: 64px 2rem 52px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: var(--blue-800);
+            opacity: 0.4;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: 40%;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: var(--blue-600);
+            opacity: 0.25;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--blue-100);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 4px 14px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 400;
+            color: #fff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: var(--blue-100);
+            opacity: 0.85;
+            max-width: 520px;
+        }
+
+        .hero-meta {
+            margin-top: 24px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: var(--blue-100);
+            opacity: 0.7;
+        }
+
+        .hero-meta-item svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ── TOC BAR ── */
+        .toc-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--gray-100);
+            padding: 0 2rem;
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .toc-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .toc-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2px;
+            padding: 10px 0;
+            white-space: nowrap;
+        }
+
+        .toc-link {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .toc-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-100);
+        }
+
+        .toc-link.active {
+            background: var(--blue-50);
+            border-color: var(--blue-100);
+            color: var(--blue-600);
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .page-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 80px;
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .main-content {
+            padding-top: 48px;
+        }
+
+        .sidebar {
+            padding-top: 48px;
+        }
+
+        /* ── INTRO CALLOUT ── */
+        .intro-callout {
+            background: var(--blue-50);
+            border-left: 3px solid var(--blue-400);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px 20px;
+            margin-bottom: 48px;
+        }
+
+        .intro-callout p {
+            font-size: 14px;
+            color: var(--blue-800);
+            line-height: 1.65;
+        }
+
+        /* ── POLICY SECTION ── */
+        .policy-section {
+            margin-bottom: 48px;
+            animation: fadeUp 0.4s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .policy-section:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .policy-section:nth-child(3) {
+            animation-delay: 0.10s;
+        }
+
+        .policy-section:nth-child(4) {
+            animation-delay: 0.15s;
+        }
+
+        .policy-section:nth-child(5) {
+            animation-delay: 0.20s;
+        }
+
+        .policy-section:nth-child(6) {
+            animation-delay: 0.25s;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .section-icon.blue {
+            background: var(--blue-50);
+            color: var(--blue-600);
+        }
+
+        .section-icon.green {
+            background: var(--green-50);
+            color: var(--green-800);
+        }
+
+        .section-icon.red {
+            background: var(--red-50);
+            color: var(--red-800);
+        }
+
+        .section-icon.amber {
+            background: var(--amber-50);
+            color: var(--amber-800);
+        }
+
+        .section-icon.gray {
+            background: var(--gray-50);
+            color: var(--gray-700);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        /* ── RULE CARDS ── */
+        .rule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fff;
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-md);
+            padding: 13px 16px;
+            transition: border-color 0.15s;
+        }
+
+        .rule-item:hover {
+            border-color: var(--gray-300);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 3px 9px;
+            border-radius: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .badge svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        .badge.allowed {
+            background: var(--green-50);
+            color: var(--green-800);
+        }
+
+        .badge.denied {
+            background: var(--red-50);
+            color: var(--red-800);
+        }
+
+        .badge.info {
+            background: var(--blue-50);
+            color: var(--blue-800);
+        }
+
+        .badge.warn {
+            background: var(--amber-50);
+            color: var(--amber-800);
+        }
+
+        .rule-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        /* ── BULLET LISTS ── */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .bullet-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .bullet-list li::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        /* ── EXCEPTION BOX ── */
+        .exception-box {
+            margin-top: 14px;
+            background: var(--amber-50);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .exception-box svg {
+            width: 16px;
+            height: 16px;
+            color: var(--amber-800);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .exception-box p {
+            font-size: 13px;
+            color: var(--amber-800);
+            line-height: 1.6;
+        }
+
+        .exception-box strong {
+            font-weight: 500;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-card {
+            background: #fff;
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .sidebar-card-title {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--gray-50);
+            color: var(--text-primary);
+        }
+
+        .contact-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--blue-600);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .contact-btn:hover {
+            background: var(--blue-800);
+        }
+
+        .sidebar-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .sidebar-meta strong {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 720px) {
+            .page-body {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .hero {
+                padding: 44px 1.5rem 36px;
+            }
+        }
+
+        /* SVG icons inline */
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <a href="index.html" style="display:inline-flex;align-items:center;gap:0.5rem;color:rgba(255,255,255,0.8);font-size:13px;font-weight:500;margin-bottom:0.75rem;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Back to Home
+            </a>
+            <div class="hero-pill">Legal &amp; Policies</div>
+            <h1>Refund &amp; Payment Policy</h1>
+            <p class="hero-sub">Applies to all ICT class enrolments on pasinduathukorala.lk — monthly subscriptions and
+                one-time course purchases.</p>
+            <div class="hero-meta">
+                <span class="hero-meta-item">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="3" width="12" height="11" rx="1.5" />
+                        <path d="M2 7h12M5 1v4M11 1v4" />
+                    </svg>
+                    Last updated: May 2026
+                </span>
+                <span class="hero-meta-item">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="8" cy="8" r="6" />
+                        <path d="M8 5v3.5l2 1.5" />
+                    </svg>
+                    2 min read
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOC BAR -->
+    <div class="toc-bar">
+        <div class="toc-inner">
+            <a href="#overview" class="toc-link active">Overview</a>
+            <a href="#monthly" class="toc-link">Monthly classes</a>
+            <a href="#one-time" class="toc-link">One-time courses</a>
+            <a href="#non-refundable" class="toc-link">Non-refundable items</a>
+            <a href="#our-responsibility" class="toc-link">Our responsibility</a>
+            <a href="#processing" class="toc-link">Processing time</a>
+            <a href="#contact" class="toc-link">Contact us</a>
+        </div>
+    </div>
+
+    <!-- PAGE BODY -->
+    <div class="page-body">
+        <main class="main-content">
+
+            <!-- Overview -->
+            <div id="overview" class="intro-callout">
+                <p>We are committed to providing high-quality ICT education. Because our course materials, LMS access,
+                    and class recordings are delivered digitally and immediately upon enrolment, our refund policy
+                    reflects the nature of these digital services. Please read this policy carefully before enrolling.
+                </p>
+            </div>
+
+            <!-- Monthly Classes -->
+            <section id="monthly" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <path d="M3 10h18M8 2v4M16 2v4" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">Monthly subscription classes</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">Each month is treated as a
+                    separate enrolment period. Once a monthly payment is made and access is granted, that month is
+                    considered active and non-refundable.</p>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="badge allowed">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 5l2 2 4-4" />
+                            </svg>
+                            Allowed
+                        </span>
+                        <p class="rule-text">You may cancel your subscription at any time. No further months will be
+                            charged after cancellation.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">Refunds are not available for the current active month once monthly tutes
+                            have been sent, LMS access has been provided, or live class access has been granted.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">Partial-month refunds are not issued regardless of how many classes you
+                            attended during that month.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- One-time courses -->
+            <section id="one-time" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+                            <rect x="9" y="3" width="6" height="4" rx="1" />
+                            <path d="M9 12h6M9 16h4" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">One-time full payment classes</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">These courses require a single
+                    upfront payment for full course access. Once any of the following services have been delivered, the
+                    payment is considered non-refundable:</p>
+                <ul class="bullet-list">
+                    <li>Monthly tutes or study materials have been dispatched</li>
+                    <li>LMS access has been activated (recordings, resources, or live class access)</li>
+                    <li>Access to Full Paper classes or mock exams has been granted</li>
+                </ul>
+                <div class="exception-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v4M12 16h.01" />
+                    </svg>
+                    <p><strong>Exception:</strong> If you request a refund before any materials or access have been
+                        provided, a full refund may be issued at our discretion within 48 hours of payment. Contact us
+                        immediately if this applies to you.</p>
+                </div>
+            </section>
+
+            <!-- Non-refundable items -->
+            <section id="non-refundable" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon red">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 9v4M12 17h.01" />
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">Non-refundable items</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">The following are strictly
+                    non-refundable under all circumstances:</p>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">Any month where tutes have been sent or LMS access was active during the
+                            billing period.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">One-time payment courses where any content, recording, or access has been
+                            delivered to your account.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">Full Paper classes or mock exam access once participation or entry has been
+                            granted.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge denied">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 2l6 6M8 2l-6 6" />
+                            </svg>
+                            No refund
+                        </span>
+                        <p class="rule-text">Downloaded or accessed study materials in any format.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our responsibility -->
+            <section id="our-responsibility" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">Our responsibility</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">If an issue arises on our end,
+                    we will make it right. Qualifying situations include:</p>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="badge info">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="5" cy="5" r="4" />
+                                <path d="M5 4v2M5 7h.01" />
+                            </svg>
+                            Eligible
+                        </span>
+                        <p class="rule-text">We failed to provide promised LMS access or class participation after
+                            payment was received.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge info">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="5" cy="5" r="4" />
+                                <path d="M5 4v2M5 7h.01" />
+                            </svg>
+                            Eligible
+                        </span>
+                        <p class="rule-text">A technical error on our platform prevented you from attending or accessing
+                            content you paid for.</p>
+                    </div>
+                    <div class="rule-item">
+                        <span class="badge info">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="5" cy="5" r="4" />
+                                <path d="M5 4v2M5 7h.01" />
+                            </svg>
+                            Eligible
+                        </span>
+                        <p class="rule-text">Promised content was not delivered at all. We will investigate and offer a
+                            refund or account credit depending on your preference and the situation.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processing time -->
+            <section id="processing" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon gray">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M12 7v5l3 3" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">Processing time</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);">Where a refund is approved, it will be processed
+                    within <strong style="font-weight:500;color:var(--text-primary);">14 business days</strong> of
+                    approval. The time for the funds to appear in your account may vary depending on your bank or
+                    payment provider and is outside our control.</p>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="policy-section">
+                <div class="section-header">
+                    <div class="section-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">Contact us</h2>
+                </div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;">Have questions about this
+                    policy or want to raise a concern? We are happy to review your situation and work towards a fair
+                    outcome. Please reach out with your full name, the course you enrolled in, and the nature of your
+                    query.</p>
+                <a href="mailto:pasinduprageeshaict@gmail.com" class="contact-btn">Contact support →</a>
+            </section>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-card">
+                <p class="sidebar-card-title">On this page</p>
+                <ul class="sidebar-nav">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#monthly">Monthly classes</a></li>
+                    <li><a href="#one-time">One-time courses</a></li>
+                    <li><a href="#non-refundable">Non-refundable items</a></li>
+                    <li><a href="#our-responsibility">Our responsibility</a></li>
+                    <li><a href="#processing">Processing time</a></li>
+                    <li><a href="#contact">Contact us</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card">
+                <p class="sidebar-card-title">Need help?</p>
+                <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;">If you have a
+                    question about a specific payment or enrolment, our team is here to help.</p>
+                <a href="mailto:pasinduprageeshaict@gmail.com" class="contact-btn">Email support →</a>
+            </div>
+
+            <div class="sidebar-card">
+                <p class="sidebar-card-title">Policy details</p>
+                <p class="sidebar-meta"><strong>Version</strong><br>May 2026</p>
+                <br>
+                <p class="sidebar-meta"><strong>Applies to</strong><br>All enrolments on pasinduathukorala.lk</p>
+                <br>
+                <p class="sidebar-meta"><strong>Refund window</strong><br>14 business days after approval</p>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer__orb footer__orb--1"></div>
+        <div class="footer__orb footer__orb--2"></div>
+        <div class="footer__glass">
+            <div class="container container--wide">
+                <div class="footer__grid">
+                    <div>
+                        <div class="footer__brand-name">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
+                            PA ICT Academy
+                        </div>
+                        <p class="footer__brand-desc">Empowering Advanced Level students with comprehensive ICT education and hands-on practice to excel in examinations.</p>
+                    </div>
+                    <div>
+                        <h4 class="footer__heading">Quick Links</h4>
+                        <ul class="footer__links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="en.html">Payment Guide (EN)</a></li>
+                            <li><a href="si.html">ගෙවීම් මාර්ගෝපදේශය (සි)</a></li>
+                            <li><a href="payment-details.html">Payment Details</a></li>
+                            <li><a href="times.html">Time Table / කාලසටහන</a></li>
+                            <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <li><a href="https://pasinduathukorala.lk" target="_blank">LMS Website →</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer__heading">Contact Us</h4>
+                        <div class="footer__contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" /></svg>
+                            <span>Admin: 0781262001</span>
+                        </div>
+                        <div class="footer__contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" /></svg>
+                            <span>Tech: 0752619155 / 0763830866</span>
+                        </div>
+                        <div>
+                            <a href="mailto:support@pasinduathukorala.lk" class="footer__btn footer__btn--email">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                Contact Support →
+                            </a>
+                            <a href="https://wa.me/94781262001?text=I%20need%20help%20regarding%20my%20payment%20or%20class%20enrollment.%20Please%20assist%20me." class="footer__btn footer__btn--whatsapp" target="_blank">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                                WhatsApp Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer__bottom">
+                    &copy; 2026 Developed By PA ICT Team. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const tocLinks = document.querySelectorAll('.toc-link, .sidebar-nav a');
+        const sections = document.querySelectorAll('section[id], div[id]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.toc-link').forEach(l => {
+                        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+
+</body>
+
+</html>
