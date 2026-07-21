@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 520" fill="none">
+  <defs>
+    <linearGradient id="swoosh" x1="90" y1="40" x2="360" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="0.5" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#60a5fa"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+  <path filter="url(#soft)" fill="url(#swoosh)"
+    d="M150 30
+       C 300 55, 400 165, 392 300
+       C 386 400, 330 470, 250 492
+       C 300 430, 312 340, 276 258
+       C 244 186, 196 140, 150 118
+       C 128 100, 132 60, 150 30 Z"/>
+</svg>
