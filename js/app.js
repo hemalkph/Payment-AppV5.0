@@ -56,8 +56,8 @@ function initLocationTabs() {
    =================================================== */
 function initYouTubePlayers() {
   const playerConfigs = [
-    { wrapper: 'ytPlayerWrapper', thumbnail: 'ytThumbnail', iframe: 'ytIframeContainer', videoId: 'sXIymByKkTY' },
-    { wrapper: 'ytPlayerWrapperEn', thumbnail: 'ytThumbnailEn', iframe: 'ytIframeContainerEn', videoId: 'sXIymByKkTY' }
+    { wrapper: 'ytPlayerWrapper', thumbnail: 'ytThumbnail', iframe: 'ytIframeContainer', videoId: 'TMSwx8obz_4' },
+    { wrapper: 'ytPlayerWrapperEn', thumbnail: 'ytThumbnailEn', iframe: 'ytIframeContainerEn', videoId: 'TMSwx8obz_4' }
   ];
 
   playerConfigs.forEach(config => {
