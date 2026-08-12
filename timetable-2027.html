@@ -22,7 +22,7 @@
     <!-- Hero -->
     <section class="hero hero-clip">
         <div class="container hero__content">
-            <a href="ttonline.html" class="nav-back">
+            <a href="ttonline" class="nav-back">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="timetable">
-                    <!-- Thursday - Class 01 -->
+                    <!-- Thursday - Not Mandatory / අනිවාර්ය නොවේ -->
                     <div class="timetable__row">
                         <div class="timetable__day">
                             <span class="timetable__day-name">Thursday</span>
@@ -99,20 +99,20 @@
                                 </svg>
                                 07:00 - 09:00
                             </div>
-                            <div class="timetable__type timetable__type--live">
+                            <div class="timetable__type timetable__type--repeat">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                     style="vertical-align:-1px;">
-                                    <circle cx="12" cy="12" r="2" />
-                                    <path d="M16.24 7.76a6 6 0 010 8.49" />
-                                    <path d="M19.07 4.93a10 10 0 010 14.14" />
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="16" x2="12" y2="12" />
+                                    <line x1="12" y1="8" x2="12.01" y2="8" />
                                 </svg>
-                                Class 01 / පන්තිය 01
+                                <span class="timetable__optional">(Not Mandatory / අනිවාර්ය නොවේ)</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Thursday - Class 02 -->
+                    <!-- Thursday - Class-01 / පන්තිය 01 -->
                     <div class="timetable__row">
                         <div class="timetable__day">
                             <span class="timetable__day-name">Thursday</span>
@@ -136,7 +136,65 @@
                                     <path d="M16.24 7.76a6 6 0 010 8.49" />
                                     <path d="M19.07 4.93a10 10 0 010 14.14" />
                                 </svg>
-                                Class 02 / පන්තිය 02
+                                Class-01 / පන්තිය 01
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Friday - Class-02 / පන්තිය 02 -->
+                    <div class="timetable__row">
+                        <div class="timetable__day">
+                            <span class="timetable__day-name">Friday</span>
+                            <span class="timetable__day-si">සිකුරාදා</span>
+                        </div>
+                        <div class="timetable__info">
+                            <div class="timetable__time">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="vertical-align:-2px;">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                08:00 - 10:00
+                            </div>
+                            <div class="timetable__type timetable__type--live">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="vertical-align:-1px;">
+                                    <circle cx="12" cy="12" r="2" />
+                                    <path d="M16.24 7.76a6 6 0 010 8.49" />
+                                    <path d="M19.07 4.93a10 10 0 010 14.14" />
+                                </svg>
+                                Class-02 / පන්තිය 02
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saturday - Class-03 / පන්තිය 03 -->
+                    <div class="timetable__row">
+                        <div class="timetable__day">
+                            <span class="timetable__day-name">Saturday</span>
+                            <span class="timetable__day-si">සෙනසුරාදා</span>
+                        </div>
+                        <div class="timetable__info">
+                            <div class="timetable__time">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="vertical-align:-2px;">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                08:00 - 11:00
+                            </div>
+                            <div class="timetable__type timetable__type--live">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="vertical-align:-1px;">
+                                    <circle cx="12" cy="12" r="2" />
+                                    <path d="M16.24 7.76a6 6 0 010 8.49" />
+                                    <path d="M19.07 4.93a10 10 0 010 14.14" />
+                                </svg>
+                                Class-03 / පන්තිය 03
                             </div>
                         </div>
                     </div>
@@ -200,10 +258,10 @@
           <div>
             <h4 class="footer__heading">Quick Links</h4>
             <ul class="footer__links">
-              <li><a href="index.html">Home / මුල් පිටුව</a></li>
-              <li><a href="ttonline.html">Online Time Table / කාලසටහන</a></li>
-              <li><a href="payment-details.html">Payment Details</a></li>
-              <li><a href="refund-policy.html">Refund Policy</a></li>
+              <li><a href="/">Home / මුල් පිටුව</a></li>
+              <li><a href="ttonline">Online Time Table / කාලසටහන</a></li>
+              <li><a href="payment-details">Payment Details</a></li>
+              <li><a href="refund-policy">Refund Policy</a></li>
               <li><a href="https://pasinduathukorala.lk" target="_blank">LMS Website â†’</a></li>
             </ul>
           </div>
