@@ -51,7 +51,19 @@
 
   /** Year tabs, matching the existing .year-tab markup. */
   function renderYearTabs(mount, rows) {
-    if (!rows.length) return;
+    // Reached only once real index data has arrived, so an empty list here
+    // means every batch for this mode/location is retired - not an outage.
+    // The hard-coded links must go, or they would keep pointing at finished
+    // batches.
+    if (!rows.length) {
+      mount.textContent = '';
+      var msg = el('p', 'coming-soon__text',
+        'No classes are currently scheduled. / '
+        + 'දැනට පන්ති කාලසටහන් නොමැත.');
+      msg.style.margin = '0';
+      mount.appendChild(msg);
+      return;
+    }
     mount.textContent = '';
     rows.sort(function (a, b) { return a.year - b.year; });
     rows.forEach(function (row, i) {

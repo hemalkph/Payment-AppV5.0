@@ -55,6 +55,14 @@
     }
   }
 
+  function clearCache(slug) {
+    try {
+      global.localStorage.removeItem(cacheKey(slug));
+    } catch (err) {
+      /* nothing to do */
+    }
+  }
+
   function shallowTimetable(data) {
     var copy = {};
     Object.keys(data).forEach(function (k) {
@@ -139,18 +147,73 @@
     refreshReveal(mount);
   }
 
+  /** Build a centred notice using the site's existing .coming-soon component. */
+  function notice(titleText, bodyText, linkText, linkHref) {
+    var box = document.createElement('div');
+    box.className = 'coming-soon';
+
+    var h = document.createElement('h3');
+    h.className = 'coming-soon__title';
+    h.textContent = titleText;
+    box.appendChild(h);
+
+    var p = document.createElement('p');
+    p.className = 'coming-soon__text';
+    p.textContent = bodyText;
+    box.appendChild(p);
+
+    if (linkText) {
+      var a = document.createElement('a');
+      a.className = 'btn btn--primary';
+      a.style.marginTop = '1.25rem';
+      a.href = linkHref;
+      a.textContent = linkText;
+      box.appendChild(a);
+    }
+    return box;
+  }
+
   function showEmptyState(mount) {
     // Only reached on the generic route, where there is no baked fallback.
     if (mount.childElementCount) return;
-    var box = document.createElement('div');
-    box.className = 'coming-soon';
-    var h = document.createElement('h3');
-    h.textContent = 'Timetable unavailable / කාලසටහන නොමැත';
-    var p = document.createElement('p');
-    p.textContent = 'Please try again shortly, or return to the timetable list.';
-    box.appendChild(h);
-    box.appendChild(p);
-    mount.appendChild(box);
+    mount.appendChild(notice(
+      'Timetable unavailable / කාලසටහන නොමැත',
+      'Please try again shortly, or return to the timetable list.',
+      null, null
+    ));
+  }
+
+  /**
+   * The timetable exists in the page but is no longer published - a retired
+   * batch, switched off from the admin panel. The baked fallback rows MUST be
+   * cleared here: leaving them would keep serving a finished batch's schedule
+   * on its old URL forever.
+   */
+  function showRetired(mount, slug) {
+    clearCache(slug);
+
+    mount.textContent = '';
+    mount.classList.remove('timetable');
+    mount.appendChild(notice(
+      'Classes completed / පන්ති අවසන්',
+      'This batch has finished, so its timetable is no longer shown. '
+        + 'මෙම කණ්ඩායමේ පන්ති අවසන් වී ඇත.',
+      'View current timetables / වත්මන් කාලසටහන්',
+      '/times'
+    ));
+
+    ['[data-timetable-notes="above"]', '[data-timetable-notes="below"]'].forEach(
+      function (sel) {
+        var node = document.querySelector(sel);
+        if (node) node.textContent = '';
+      }
+    );
+    var stamp = document.querySelector('[data-timetable-updated]');
+    if (stamp) stamp.hidden = true;
+    var subtitle = document.querySelector('[data-timetable-subtitle]');
+    if (subtitle) { subtitle.textContent = ''; subtitle.hidden = true; }
+
+    refreshReveal(mount);
   }
 
   function loadInto(mount) {
@@ -166,7 +229,12 @@
         applyData(mount, data);
         writeCache(slug, data);
       })
-      .catch(function () {
+      .catch(function (error) {
+        // Deliberately hidden, not an outage: never fall back to stale content.
+        if (error && error.notPublished) {
+          showRetired(mount, slug);
+          return;
+        }
         var cached = readCache(slug);
         if (cached) {
           try {
@@ -193,5 +261,7 @@
     init();
   }
 
-  global.PAICTTimetableLive = { init: init, readCache: readCache, writeCache: writeCache };
+  global.PAICTTimetableLive = {
+    init: init, readCache: readCache, writeCache: writeCache, clearCache: clearCache
+  };
 })(window);

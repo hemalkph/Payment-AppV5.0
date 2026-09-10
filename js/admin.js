@@ -451,7 +451,8 @@
 
     var pubWrap = el('div', 'admin-field admin-field--wide');
     pubWrap.appendChild(checkbox(
-      'Published — visible to visitors', t.published, function (on) {
+      'Published — visible to visitors (uncheck to retire a finished batch)',
+      t.published, function (on) {
         t.published = on; markDirty();
       }));
     grid.appendChild(pubWrap);
