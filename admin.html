@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Timetable Admin — PA ICT Academy</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+
+<body class="admin">
+
+    <!-- ============ Login ============ -->
+    <section id="view-login" class="admin-login" hidden>
+        <form class="admin-login__card" id="login-form" autocomplete="on">
+            <div class="admin-login__brand">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                PA ICT Academy
+            </div>
+            <h1 class="admin-login__title">Timetable Admin</h1>
+            <p class="admin-login__hint">Staff sign-in / කාර්ය මණ්ඩල පිවිසුම</p>
+
+            <label class="admin-field">
+                <span class="admin-field__label">Email</span>
+                <input class="admin-input" type="email" id="login-email" name="email"
+                    autocomplete="username" required>
+            </label>
+
+            <label class="admin-field">
+                <span class="admin-field__label">Password</span>
+                <input class="admin-input" type="password" id="login-password" name="password"
+                    autocomplete="current-password" required>
+            </label>
+
+            <p class="admin-alert admin-alert--error" id="login-error" hidden></p>
+
+            <button class="btn btn--primary admin-login__submit" type="submit" id="login-submit">
+                Sign in
+            </button>
+        </form>
+    </section>
+
+    <!-- ============ Not authorised ============ -->
+    <section id="view-denied" class="admin-login" hidden>
+        <div class="admin-login__card">
+            <h1 class="admin-login__title">Access denied</h1>
+            <p class="admin-login__hint" id="denied-message">
+                This account is not on the timetable staff list. Ask an administrator to add it.
+            </p>
+            <button class="btn btn--secondary" type="button" data-action="sign-out">Sign out</button>
+        </div>
+    </section>
+
+    <!-- ============ App ============ -->
+    <div id="view-app" hidden>
+        <header class="admin-bar">
+            <div class="admin-bar__brand">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Timetable Admin
+            </div>
+            <div class="admin-bar__right">
+                <span class="admin-bar__user" id="current-user"></span>
+                <a class="admin-bar__link" href="/times" target="_blank" rel="noopener">View site ↗</a>
+                <button class="btn btn--secondary btn--sm" type="button" data-action="sign-out">Sign out</button>
+            </div>
+        </header>
+
+        <p class="admin-toast" id="toast" hidden></p>
+
+        <!-- ---- List ---- -->
+        <main id="panel-list" class="admin-main">
+            <div class="admin-main__head">
+                <h1 class="admin-h1">Timetables</h1>
+                <button class="btn btn--primary btn--sm" type="button" data-action="new-timetable">
+                    + New timetable
+                </button>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table" id="timetable-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Year</th>
+                            <th>Mode / Location</th>
+                            <th>Classes</th>
+                            <th>Status</th>
+                            <th class="admin-table__actions-head">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-rows"></tbody>
+                </table>
+            </div>
+            <p class="admin-empty" id="list-empty" hidden>No timetables yet. Create the first one.</p>
+        </main>
+
+        <!-- ---- Editor ---- -->
+        <main id="panel-editor" class="admin-main" hidden>
+            <div class="admin-main__head">
+                <div>
+                    <button class="admin-back" type="button" data-action="back-to-list">← All timetables</button>
+                    <h1 class="admin-h1" id="editor-heading">Edit timetable</h1>
+                </div>
+                <div class="admin-actions">
+                    <span class="admin-status" id="editor-status"></span>
+                    <button class="btn btn--secondary btn--sm" type="button" data-action="save">Save</button>
+                    <button class="btn btn--primary btn--sm" type="button" data-action="save-publish">
+                        Save &amp; publish
+                    </button>
+                </div>
+            </div>
+
+            <div class="admin-split">
+                <div class="admin-split__form">
+                    <!-- Details -->
+                    <section class="admin-card">
+                        <h2 class="admin-h2">Details</h2>
+                        <div class="admin-grid" id="details-grid"></div>
+                    </section>
+
+                    <!-- Classes -->
+                    <section class="admin-card">
+                        <div class="admin-card__head">
+                            <h2 class="admin-h2">Classes</h2>
+                            <button class="btn btn--secondary btn--sm" type="button" data-action="add-slot">
+                                + Add class
+                            </button>
+                        </div>
+                        <div id="slot-list" class="admin-items"></div>
+                        <p class="admin-empty" id="slot-empty" hidden>No classes yet.</p>
+                    </section>
+
+                    <!-- Notes -->
+                    <section class="admin-card">
+                        <div class="admin-card__head">
+                            <h2 class="admin-h2">Notes</h2>
+                            <button class="btn btn--secondary btn--sm" type="button" data-action="add-note">
+                                + Add note
+                            </button>
+                        </div>
+                        <div id="note-list" class="admin-items"></div>
+                        <p class="admin-empty" id="note-empty" hidden>No notes yet.</p>
+                    </section>
+                </div>
+
+                <!-- Live preview, using the real public stylesheet -->
+                <aside class="admin-split__preview">
+                    <div class="admin-preview-head">
+                        <h2 class="admin-h2">Live preview</h2>
+                        <span class="admin-preview-note">Exactly what visitors see</span>
+                    </div>
+                    <div class="admin-preview-surface">
+                        <div class="card">
+                            <div class="card__header">
+                                <h2 class="card__title">
+                                    <span class="card__title-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                            <line x1="16" y1="2" x2="16" y2="6" />
+                                            <line x1="8" y1="2" x2="8" y2="6" />
+                                            <line x1="3" y1="10" x2="21" y2="10" />
+                                        </svg>
+                                    </span>
+                                    <span id="preview-title"></span>
+                                </h2>
+                                <p class="card__subtitle" id="preview-subtitle"></p>
+                            </div>
+                            <div id="preview-notes-above"></div>
+                            <div class="timetable" id="preview-timetable"></div>
+                            <div id="preview-notes-below"></div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- Confirm dialog -->
+    <div class="admin-modal" id="confirm-modal" hidden>
+        <div class="admin-modal__card" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+            <h2 class="admin-h2" id="confirm-title">Are you sure?</h2>
+            <p class="admin-modal__body" id="confirm-body"></p>
+            <div class="admin-modal__actions">
+                <button class="btn btn--secondary btn--sm" type="button" data-action="confirm-cancel">Cancel</button>
+                <button class="btn btn--danger btn--sm" type="button" data-action="confirm-ok">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="/js/supabase-config.js"></script>
+    <script src="/js/timetable-render.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+
+</html>

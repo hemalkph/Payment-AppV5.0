@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="si">
 
 <head>
@@ -56,11 +56,11 @@
                                 <line x1="3" y1="10" x2="21" y2="10" />
                             </svg>
                         </span>
-                        2028 A/L — පන්ති කාලසටහන / Class Schedule
+                        <span data-timetable-title>2028 A/L — පන්ති කාලසටහන / Class Schedule</span>
                     </h2>
                 </div>
 
-                <div class="zoom-badge">
+                <div data-timetable-notes="above"><div class="zoom-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path
@@ -80,9 +80,9 @@
                     <p style="font-size: var(--fs-sm); color: var(--clr-text-500); margin: 0;">
                         සියලුම පන්ති රාත්‍රී කාලයේ පවත්වනු ලැබේ. / All classes are conducted during night time.
                     </p>
-                </div>
+                </div></div>
 
-                <div class="timetable">
+                <div class="timetable" data-timetable="2028-online">
                     <!-- Thursday -->
                     <div class="timetable__row">
                         <div class="timetable__day">
@@ -208,6 +208,9 @@
   </footer>
 
     <script src="js/app.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/timetable-render.js"></script>
+    <script src="js/timetable-live.js"></script>
 </body>
 
 </html>

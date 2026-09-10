@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="si">
 
 <head>
@@ -42,15 +42,15 @@
                                 <line x1="16" y1="2" x2="16" y2="6" />
                                 <line x1="8" y1="2" x2="8" y2="6" />
                                 <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg></span>2026 A/L — Vidula, Horana / හොරණ</h2>
-                    <p class="card__subtitle">Revision & Paper Class / පුනරීක්ෂණ සහ ප්‍රශ්නපත්‍ර පන්තිය</p>
+                            </svg></span><span data-timetable-title>2026 A/L — Vidula, Horana / හොරණ</span></h2>
+                    <p class="card__subtitle" data-timetable-subtitle>Revision & Paper Class / පුනරීක්ෂණ සහ ප්‍රශ්නපත්‍ර පන්තිය</p>
                 </div>
                 <div class="glass-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                         <circle cx="12" cy="10" r="3" />
                     </svg>Vidula Institute — Horana / හොරණ</div>
-                <div class="timetable">
+                <div class="timetable" data-timetable="2026-horana">
                     <div class="timetable__row">
                         <div class="timetable__day"><span class="timetable__day-name">Thursday</span><span
                                 class="timetable__day-si">බ්‍රහස්පතින්දා</span></div>
@@ -90,12 +90,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-block" style="margin-top:1.25rem;">
+                <div data-timetable-notes="below"><div class="info-block" style="margin-top:1.25rem;">
                     <div class="info-block__title">LMS Access / LMS ප්‍රවේශය</div>
                     <p style="font-size:var(--fs-sm);color:var(--clr-text-600);margin:0;">ඔබට පසුගිය පාඩම් අපගේ LMS හරහා
                         පහසුවෙන් නැරඹිය හැක. ඔන්ලයින් පන්තිවලටද සම්බන්ධ විය හැක. / You can easily watch past lessons
                         through our LMS and also join our online classes.</p>
-                </div>
+                </div></div>
                 <div class="social-links"><a href="https://chat.whatsapp.com/IJImIF7ZnK0BUn8E9Q8oxo?mode=gi_t"
                         class="social-link social-link--whatsapp" target="_blank"><svg width="20" height="20"
                             viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
@@ -186,6 +186,9 @@
     </div>
   </footer>
     <script src="js/app.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/timetable-render.js"></script>
+    <script src="js/timetable-live.js"></script>
 </body>
 
 </html>

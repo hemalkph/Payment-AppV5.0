@@ -9,241 +9,6 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-    <style>
-        /* ===== Timetable 2026 — Section Cards ===== */
-        .tt-section {
-            margin-bottom: 2rem;
-        }
-
-        .tt-section__header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.9rem 1.25rem;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            font-family: var(--ff-heading);
-            font-weight: 700;
-            font-size: var(--fs-base);
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tt-section__header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .tt-section__header-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            flex-shrink: 0;
-        }
-
-        .tt-section__header-text {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .tt-section__header-title {
-            font-size: var(--fs-base);
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .tt-section__header-subtitle {
-            font-size: var(--fs-xs);
-            font-weight: 400;
-            opacity: 0.85;
-        }
-
-        /* Section color themes */
-        .tt-section--revision .tt-section__header {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1d4ed8 100%);
-        }
-
-        .tt-section--seminar .tt-section__header {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-        }
-
-        .tt-section--paper .tt-section__header {
-            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-        }
-
-        .tt-section--discussion .tt-section__header {
-            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
-        }
-
-        .tt-section__body {
-            border: 1px solid var(--clr-surface-border-light);
-            border-top: none;
-            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-            overflow: hidden;
-            background: var(--clr-surface);
-        }
-
-        /* Badge for platform/method */
-        .tt-platform-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: var(--fs-xs);
-            font-weight: 600;
-            padding: 0.2rem 0.65rem;
-            border-radius: var(--radius-full);
-            width: fit-content;
-        }
-
-        .tt-platform-badge--zoom {
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #93c5fd;
-        }
-
-        .tt-platform-badge--youtube {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
-        }
-
-        /* Slot number badge */
-        .tt-slot {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--grad-btn);
-            color: #fff;
-            font-size: var(--fs-xs);
-            font-weight: 700;
-            flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-        }
-
-        .tt-slot--amber {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
-        }
-
-        /* Section description */
-        .tt-section__desc {
-            padding: 0.85rem 1.25rem;
-            font-size: var(--fs-sm);
-            color: var(--clr-text-500);
-            border-bottom: 1px solid var(--clr-surface-border-light);
-            background: var(--clr-bg-50);
-            line-height: 1.7;
-        }
-
-        /* Special note in section */
-        .tt-section__note {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            padding: 0.75rem 1.15rem;
-            background: #fffbeb;
-            border-bottom: 1px solid #fcd34d;
-            font-size: var(--fs-xs);
-            color: #92400e;
-            line-height: 1.6;
-        }
-
-        .tt-section__note svg {
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        /* Timetable row enhancements */
-        .timetable__row--seminar {
-            border-left: 3px solid #dc2626 !important;
-        }
-
-        .timetable__row--discussion {
-            border-left: 3px solid #0891b2 !important;
-        }
-
-        .timetable__type--seminar {
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        .timetable__type--discussion {
-            background: #ecfeff;
-            color: #155e75;
-            border: 1px solid #67e8f9;
-        }
-
-        /* Day session badge */
-        .timetable__day-session {
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 0.15rem;
-        }
-
-        /* Info row in timetable for extra details */
-        .timetable__meta {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        /* Responsive tweaks */
-        @media (max-width: 600px) {
-            .tt-section__header {
-                flex-direction: row;
-                padding: 0.75rem 1rem;
-            }
-
-            .tt-section__header-icon {
-                width: 28px;
-                height: 28px;
-            }
-
-            .tt-section__header-title {
-                font-size: var(--fs-sm);
-            }
-
-            .timetable__row {
-                flex-direction: column;
-            }
-
-            .timetable__day {
-                min-width: unset;
-                border-right: none;
-                border-bottom: 1px solid var(--clr-surface-border-light);
-                padding: 0.65rem 1rem;
-                flex-direction: row;
-                gap: 0.5rem;
-            }
-
-            .timetable__info {
-                padding: 0.75rem 1rem;
-            }
-
-            .tt-slot {
-                width: 24px;
-                height: 24px;
-                font-size: 0.65rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -291,11 +56,11 @@
                                 <line x1="3" y1="10" x2="21" y2="10" />
                             </svg>
                         </span>
-                        2026 A/L — පන්ති කාලසටහන / Class Schedule
+                        <span data-timetable-title>2026 A/L — පන්ති කාලසටහන / Class Schedule</span>
                     </h2>
                 </div>
 
-                <div class="info-block info-block--warning" style="margin-bottom: 1.25rem;">
+                <div data-timetable-notes="above"><div class="info-block info-block--warning" style="margin-bottom: 1.25rem;">
                     <div class="info-block__title">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;">
@@ -328,12 +93,12 @@
                         Students can join <strong>one</strong> Online Paper Writing Class per week to write the full
                         ranking paper. Choose one slot from the 5 listed below.
                     </p>
-                </div>
+                </div></div>
 
                 <!-- ═══════════════════════════════════════════════
                      SECTION 1: Revision Classes / නැවත පන්ති
                      ═══════════════════════════════════════════════ -->
-                <div class="tt-section tt-section--revision">
+                <div data-timetable="2026-online"><div class="tt-section tt-section--revision">
                     <div class="tt-section__header">
                         <div class="tt-section__header-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
@@ -939,7 +704,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div></div>
 
             </div>
         </div>
@@ -1075,6 +840,9 @@
     </footer>
 
     <script src="js/app.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/timetable-render.js"></script>
+    <script src="js/timetable-live.js"></script>
 </body>
 
 </html>

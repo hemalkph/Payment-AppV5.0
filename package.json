@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ICT Academy - A/L Payment Information Portal",
   "scripts": {
-    "start": "npx serve ."
+    "start": "npx serve .",
+    "snapshot": "node scripts/export-snapshot.mjs"
   }
 }

@@ -1,0 +1,50 @@
+# Supabase free-tier projects pause after a stretch of inactivity, which is
+# what already happened to two other projects on this account. A tiny daily
+# read keeps the timetable project awake.
+#
+# The site itself does not depend on this succeeding — public pages fall back
+# to the localStorage cache and then to the baked HTML — but a live project
+# means visitors get current data.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL               e.g. https://<ref>.supabase.co
+#   SUPABASE_PUBLISHABLE_KEY   the publishable (anon) key — never service_role
+name: Supabase keepalive
+
+on:
+  schedule:
+    # 03:17 UTC daily; an off-the-hour minute avoids GitHub's busiest slots
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read one row from PostgREST
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_PUBLISHABLE_KEY:-}" ]; then
+            echo "::error::SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY secrets are not set."
+            exit 1
+          fi
+
+          status=$(curl --silent --show-error --location \
+            --output /dev/null --write-out '%{http_code}' \
+            --max-time 30 --retry 3 --retry-delay 10 --retry-connrefused \
+            -H "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_PUBLISHABLE_KEY}" \
+            "${SUPABASE_URL}/rest/v1/timetables?select=slug&limit=1")
+
+          echo "PostgREST responded ${status}"
+          if [ "$status" != "200" ]; then
+            echo "::error::Keepalive read failed with HTTP ${status}"
+            exit 1
+          fi

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /admin.html
+
+# The admin panel is also protected by Supabase authentication and
+# row-level security; this file only keeps it out of search results.

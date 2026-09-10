@@ -37,9 +37,9 @@
                 <h2>Select Location / ස්ථානය තෝරන්න</h2>
                 <p>Choose your nearest class location / ළඟම පන්ති ස්ථානය තෝරන්න</p>
             </div>
-            <div class="lang-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="lang-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));" data-timetable-locations>
 
-                <div class="glass-card reveal reveal-delay-1" style="text-align:center;">
+                <div class="glass-card reveal reveal-delay-1" data-location-key="horana" style="text-align:center;">
                     <div class="lang-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
                             stroke="#fff" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -51,7 +51,7 @@
                             class="btn__arrow">→</span></a>
                 </div>
 
-                <div class="glass-card reveal reveal-delay-2" style="text-align:center;">
+                <div class="glass-card reveal reveal-delay-2" data-location-key="homagama" style="text-align:center;">
                     <div class="lang-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
                             stroke="#fff" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -63,7 +63,7 @@
                             class="btn__arrow">→</span></a>
                 </div>
 
-                <div class="glass-card reveal" style="text-align:center;">
+                <div class="glass-card reveal" data-location-key="nugegoda" style="text-align:center;">
                     <div class="lang-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
                             stroke="#fff" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -132,6 +132,8 @@
     </div>
   </footer>
     <script src="js/app.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/timetable-index.js"></script>
 </body>
 
 </html>
