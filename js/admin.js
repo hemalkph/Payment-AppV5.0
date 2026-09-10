@@ -317,7 +317,96 @@
   /* =============================================================
      List view
      ============================================================= */
+  /* -------------------------------------------------------------
+     Batches: one switch per year, because a "batch" spans several
+     timetables (online plus each physical location). Retiring a year one
+     timetable at a time is four separate edits and easy to half-finish.
+     ------------------------------------------------------------- */
+  function batchGroups() {
+    var byYear = {};
+    state.timetables.forEach(function (t) {
+      (byYear[t.year] = byYear[t.year] || []).push(t);
+    });
+    return Object.keys(byYear)
+      .map(function (y) { return { year: parseInt(y, 10), items: byYear[y] }; })
+      .sort(function (a, b) { return b.year - a.year; });
+  }
+
+  function renderBatches() {
+    var host = $('#batch-list');
+    if (!host) return;
+    host.textContent = '';
+
+    batchGroups().forEach(function (group) {
+      var live = group.items.filter(function (t) { return t.published; }).length;
+      var total = group.items.length;
+      var stateName = live === 0 ? 'retired' : (live === total ? 'active' : 'partial');
+
+      var row = el('div', 'admin-batch admin-batch--' + stateName);
+
+      var info = el('div', 'admin-batch__info');
+      info.appendChild(el('span', 'admin-batch__year', group.year + ' A/L'));
+      info.appendChild(el('span', 'admin-batch__meta',
+        total + (total === 1 ? ' timetable' : ' timetables')
+        + (stateName === 'partial' ? ' · ' + live + ' of ' + total + ' visible' : '')));
+      row.appendChild(info);
+
+      var labels = { active: 'Visible', retired: 'Switched off', partial: 'Partly visible' };
+      row.appendChild(el('span',
+        'admin-pill admin-pill--' + (stateName === 'active' ? 'published' : 'draft'),
+        labels[stateName]));
+
+      var actions = el('div', 'admin-batch__actions');
+      if (stateName !== 'retired') {
+        var off = el('button', 'btn btn--danger btn--sm', 'Switch off');
+        off.type = 'button';
+        off.addEventListener('click', function () { setBatch(group, false); });
+        actions.appendChild(off);
+      }
+      if (stateName !== 'active') {
+        var on = el('button', 'btn btn--secondary btn--sm', 'Switch on');
+        on.type = 'button';
+        on.addEventListener('click', function () { setBatch(group, true); });
+        actions.appendChild(on);
+      }
+      row.appendChild(actions);
+
+      host.appendChild(row);
+    });
+  }
+
+  async function setBatch(group, publish) {
+    var names = group.items.map(function (t) {
+      return t.mode === 'physical' ? (t.location_key || 'physical') : 'online';
+    }).join(', ');
+
+    var ok = await confirmAction(
+      publish
+        ? 'Switch the ' + group.year + ' A/L batch back on? Visitors will see '
+          + group.items.length + ' timetable(s) again (' + names + ').'
+        : 'Switch off the ' + group.year + ' A/L batch? Visitors will stop seeing all '
+          + group.items.length + ' of its timetables (' + names + '), and its old links '
+          + 'will send them to the current timetable list. Nothing is deleted - you can '
+          + 'switch it back on any time.',
+      publish ? 'Switch on' : 'Switch off');
+    if (!ok) return;
+
+    var res = await client.from('timetables')
+      .update({ published: publish })
+      .eq('year', group.year);
+
+    if (res.error) {
+      toast('Could not update the batch: ' + res.error.message, true);
+      return;
+    }
+    toast(publish
+      ? group.year + ' A/L is visible again.'
+      : group.year + ' A/L is switched off — visitors no longer see it.');
+    await loadTimetables();
+  }
+
   function renderList() {
+    renderBatches();
     var body = $('#timetable-rows');
     body.textContent = '';
     show($('#list-empty'), state.timetables.length === 0);
@@ -481,7 +570,21 @@
     var card = el('div', 'admin-item' + (slot.published ? '' : ' admin-item--draft'));
 
     var head = el('div', 'admin-item__head');
-    head.appendChild(el('span', 'admin-item__title', slotSummary(slot)));
+
+    // Each slot has 18 fields; a 12-slot timetable is unreadable fully
+    // expanded. Collapsed by default, with the summary line as the toggle.
+    var toggle = el('button', 'admin-item__toggle');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.appendChild(el('span', 'admin-item__chevron', '▸'));
+    toggle.appendChild(el('span', 'admin-item__title', slotSummary(slot)));
+    toggle.addEventListener('click', function () {
+      var open = card.classList.toggle('admin-item--open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.querySelector('.admin-item__chevron').textContent = open ? '▾' : '▸';
+    });
+    head.appendChild(toggle);
+
     head.appendChild(iconButton('↑', 'Move up', function () {
       move(state.draft.slots, index, -1); renderSlots(); markDirty();
     })).disabled = index === 0;
@@ -498,7 +601,8 @@
       return function (v) { slot[key] = v === '' ? null : v; markDirty(); refreshHead(); };
     }
     function refreshHead() {
-      head.firstChild.textContent = slotSummary(slot);
+      var title = head.querySelector('.admin-item__title');
+      if (title) title.textContent = slotSummary(slot);
       card.classList.toggle('admin-item--draft', !slot.published);
     }
 
@@ -601,6 +705,17 @@
     });
     renderSlots();
     markDirty();
+    var cards = document.querySelectorAll('#slot-list .admin-item');
+    var last = cards[cards.length - 1];
+    if (last) {
+      last.classList.add('admin-item--open');
+      var t = last.querySelector('.admin-item__toggle');
+      if (t) {
+        t.setAttribute('aria-expanded', 'true');
+        t.querySelector('.admin-item__chevron').textContent = '▾';
+      }
+      last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 
   /* =============================================================

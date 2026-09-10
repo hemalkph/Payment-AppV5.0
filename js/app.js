@@ -10,7 +10,53 @@ document.addEventListener('DOMContentLoaded', () => {
   initYearTabs();
   initYouTubePlayers();
   initLocationTabs();
+  initCompletedBatchBanner();
 });
+
+/* ===================================================
+   Completed Batch Banner
+   Shown after a retired batch's timetable page redirects here, so the
+   visitor understands why the URL they followed moved.
+   =================================================== */
+function initCompletedBatchBanner() {
+  const completed = new URLSearchParams(window.location.search).get('completed');
+  if (!completed) return;
+
+  // Only render a plausible batch label, never arbitrary text from the URL.
+  if (!/^[0-9a-z-]{1,20}$/i.test(completed)) return;
+  const label = /^20\d{2}$/.test(completed) ? completed + ' A/L' : completed;
+
+  const host = document.querySelector('.content-section .container');
+  if (!host) return;
+
+  const block = document.createElement('div');
+  block.className = 'info-block info-block--warning reveal visible';
+  block.style.marginBottom = '1.5rem';
+
+  const title = document.createElement('div');
+  title.className = 'info-block__title';
+  title.textContent = label + ' classes have finished / ' + label + ' පන්ති අවසන්';
+  block.appendChild(title);
+
+  const body = document.createElement('p');
+  body.style.fontSize = 'var(--fs-sm)';
+  body.style.color = 'var(--clr-text-600)';
+  body.style.margin = '0';
+  body.textContent =
+    'That batch has completed, so its timetable is no longer published. '
+    + 'Current timetables are below. / '
+    + 'එම කණ්ඩායමේ පන්ති අවසන් වී ඇත. වත්මන් කාලසටහන් පහත දැක්වේ.';
+  block.appendChild(body);
+
+  host.insertBefore(block, host.firstChild);
+
+  // Drop the parameter so a refresh or shared link is clean.
+  if (window.history && window.history.replaceState) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('completed');
+    window.history.replaceState({}, '', url);
+  }
+}
 
 /* ===================================================
    Location Tabs (Physical Timetable)

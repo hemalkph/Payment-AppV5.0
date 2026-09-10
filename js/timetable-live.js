@@ -192,6 +192,18 @@
   function showRetired(mount, slug) {
     clearCache(slug);
 
+    // A retired batch must not simply show an empty state: the page around it
+    // is still branded for that year (hero, badge, tab title, community
+    // links), so leaving a visitor there still "shows" the finished batch.
+    // Send them to the current timetable list instead, and let that page
+    // explain why they moved. replace() keeps the dead URL out of history.
+    var year = (String(slug).match(/\b(20\d{2})\b/) || [])[1] || '';
+    if (global.location && typeof global.location.replace === 'function') {
+      global.location.replace('/times?completed=' + encodeURIComponent(year || slug));
+      return;
+    }
+
+    // Fallback for the rare case a redirect cannot run.
     mount.textContent = '';
     mount.classList.remove('timetable');
     mount.appendChild(notice(
@@ -201,7 +213,6 @@
       'View current timetables / වත්මන් කාලසටහන්',
       '/times'
     ));
-
     ['[data-timetable-notes="above"]', '[data-timetable-notes="below"]'].forEach(
       function (sel) {
         var node = document.querySelector(sel);
@@ -212,7 +223,6 @@
     if (stamp) stamp.hidden = true;
     var subtitle = document.querySelector('[data-timetable-subtitle]');
     if (subtitle) { subtitle.textContent = ''; subtitle.hidden = true; }
-
     refreshReveal(mount);
   }
 

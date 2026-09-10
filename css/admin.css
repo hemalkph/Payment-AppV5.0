@@ -576,3 +576,111 @@ body.admin {
     justify-content: flex-end;
   }
 }
+
+/* ---------------- Batches (year-level switch) ---------------- */
+.admin-hint {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-500);
+  margin: 0.25rem 0 0;
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+.admin-batches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.admin-batch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--clr-surface-border);
+  border-left: 3px solid var(--clr-green-500);
+  border-radius: 10px;
+  background: var(--clr-bg-page);
+}
+
+.admin-batch--retired {
+  border-left-color: var(--clr-text-300);
+  background: var(--clr-surface);
+}
+
+.admin-batch--partial {
+  border-left-color: var(--clr-accent-400);
+}
+
+.admin-batch__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 9rem;
+}
+
+.admin-batch__year {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--clr-text-900);
+}
+
+.admin-batch__meta {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-500);
+}
+
+.admin-batch__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------------- Collapsible slot cards ---------------- */
+.admin-item__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.admin-item__chevron {
+  flex-shrink: 0;
+  width: 1rem;
+  font-size: 0.7rem;
+  color: var(--clr-text-400);
+}
+
+.admin-item__toggle:hover .admin-item__title {
+  color: var(--clr-primary-700);
+}
+
+/* Collapsed is the default; .admin-item--open reveals the fields. */
+.admin-item .admin-item__body {
+  display: none;
+}
+
+.admin-item--open .admin-item__body {
+  display: grid;
+}
+
+@media (max-width: 780px) {
+  .admin-batch {
+    align-items: flex-start;
+  }
+
+  .admin-batch__actions {
+    width: 100%;
+  }
+}
