@@ -89,7 +89,15 @@
       select: TIMETABLE_SELECT,
       limit: 1
     }, options).then(function (rows) {
-      if (!rows || !rows.length) throw new Error('No published timetable: ' + slug);
+      if (!rows || !rows.length) {
+        // The request succeeded, the row just isn't visible to visitors -
+        // either unpublished (a retired batch) or deleted. Flagged so callers
+        // can tell this apart from an outage: an outage should fall back to
+        // cached/baked content, but a retired batch must NOT.
+        var err = new Error('Timetable not available to visitors: ' + slug);
+        err.notPublished = true;
+        throw err;
+      }
       return normalise(rows[0]);
     });
   }
