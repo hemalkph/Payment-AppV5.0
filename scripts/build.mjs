@@ -14,7 +14,7 @@
  * js/timetable-render.js) are copied from one place, so the admin's live
  * preview can never drift from the real site styling.
  */
-import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm, readdir, stat, copyFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -56,15 +56,32 @@ async function emptyDir(dir) {
   await mkdir(dir, { recursive: true });
 }
 
+/**
+ * Recursive file/directory copy written by hand rather than fs.promises.cp,
+ * which only became stable in Node 18 — some Vercel projects still pin an
+ * older Node.js Version (Project Settings -> General), and this must not
+ * depend on that being current.
+ */
+async function copyRecursive(from, to) {
+  const info = await stat(from);
+  if (info.isDirectory()) {
+    await mkdir(to, { recursive: true });
+    for (const entry of await readdir(from)) {
+      await copyRecursive(join(from, entry), join(to, entry));
+    }
+  } else {
+    await mkdir(dirname(to), { recursive: true });
+    await copyFile(from, to);
+  }
+}
+
 async function copyInto(outDir, relPath) {
   const from = join(ROOT, relPath);
   if (!existsSync(from)) {
     console.warn(`  ! skipped missing ${relPath}`);
     return;
   }
-  const to = join(outDir, relPath);
-  await mkdir(dirname(to), { recursive: true });
-  await cp(from, to, { recursive: true });
+  await copyRecursive(from, join(outDir, relPath));
 }
 
 async function buildSite() {
