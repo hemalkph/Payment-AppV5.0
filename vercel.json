@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/timetables/:slug", "destination": "/timetable.html" }
+    { "source": "/timetables/:slug", "destination": "/timetable" }
   ],
   "redirects": [
     { "source": "/timetables", "destination": "/times", "permanent": false }
