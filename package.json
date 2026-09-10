@@ -4,6 +4,11 @@
   "description": "ICT Academy - A/L Payment Information Portal",
   "scripts": {
     "start": "npx serve .",
-    "snapshot": "node scripts/export-snapshot.mjs"
+    "snapshot": "node scripts/export-snapshot.mjs",
+    "build": "node scripts/build.mjs site",
+    "build:site": "node scripts/build.mjs site",
+    "build:admin": "node scripts/build.mjs admin",
+    "preview:site": "npm run build:site && npx serve dist-site -l 4173",
+    "preview:admin": "npm run build:admin && npx serve dist-admin -l 4174"
   }
 }

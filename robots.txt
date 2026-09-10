@@ -1,6 +1,5 @@
 User-agent: *
-Disallow: /admin
-Disallow: /admin.html
+Allow: /
 
-# The admin panel is also protected by Supabase authentication and
-# row-level security; this file only keeps it out of search results.
+# The staff admin panel is deployed as a separate Vercel project on its own
+# domain, and ships its own robots.txt disallowing everything.
