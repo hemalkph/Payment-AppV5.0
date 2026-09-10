@@ -103,11 +103,35 @@
     return wrap;
   }
 
+  /**
+   * Bind a value handler to a control.
+   *
+   * Both 'input' and 'change' are needed, not just 'input': Chrome's native
+   * time-picker dropdown, autofill, and some IME/paste paths fire only
+   * 'change'. Listening to 'input' alone meant a value could be visible in
+   * the field but never reach the draft, so saving wrote the old value back
+   * while the form showed the new one - a silent data loss.
+   *
+   * Both events firing for one edit is harmless, but the guard keeps
+   * handlers that re-render (Mode, Type, note variant) from doing it twice.
+   */
+  function bindValue(node, read, handler) {
+    var last = read();
+    function commit() {
+      var current = read();
+      if (current === last) return;
+      last = current;
+      handler(current, node);
+    }
+    node.addEventListener('input', commit);
+    node.addEventListener('change', commit);
+  }
+
   function input(value, onInput, type) {
     var node = el('input', 'admin-input');
     node.type = type || 'text';
     node.value = value == null ? '' : value;
-    node.addEventListener('input', function () { onInput(node.value, node); });
+    bindValue(node, function () { return node.value; }, onInput);
     return node;
   }
 
@@ -119,14 +143,14 @@
       node.appendChild(o);
     });
     node.value = value == null ? '' : value;
-    node.addEventListener('change', function () { onChange(node.value, node); });
+    bindValue(node, function () { return node.value; }, onChange);
     return node;
   }
 
   function textarea(value, onInput) {
     var node = el('textarea', 'admin-textarea');
     node.value = value == null ? '' : value;
-    node.addEventListener('input', function () { onInput(node.value); });
+    bindValue(node, function () { return node.value; }, function (v) { onInput(v); });
     return node;
   }
 
