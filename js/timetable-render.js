@@ -352,11 +352,7 @@
     }
 
     container.classList.remove('timetable');
-    sections.forEach(function (section) {
-      var owned = slots.filter(function (s) { return s.section_id === section.id; });
-      container.appendChild(renderSection(section, owned, timeFormat));
-    });
-    // Slots that belong to no section still need somewhere to go.
+    // Slots that belong to no section are the main timetable: show them first.
     var orphans = slots.filter(function (s) { return !s.section_id; });
     if (orphans.length) {
       var table = el('div', 'timetable');
@@ -365,6 +361,10 @@
       });
       container.appendChild(table);
     }
+    sections.forEach(function (section) {
+      var owned = slots.filter(function (s) { return s.section_id === section.id; });
+      container.appendChild(renderSection(section, owned, timeFormat));
+    });
     return container;
   }
 

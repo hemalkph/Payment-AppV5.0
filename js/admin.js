@@ -18,6 +18,7 @@
   });
 
   var LOCATIONS = ['homagama', 'horana', 'nugegoda'];
+  var THEMES = ['revision', 'paper', 'seminar', 'discussion'];
   var KINDS = ['live', 'repeat', 'paper', 'seminar', 'discussion'];
   var PLATFORMS = ['', 'zoom', 'youtube', 'physical'];
   var VARIANTS = ['info', 'warning', 'zoom'];
@@ -274,6 +275,7 @@
       sections: (data.timetable_sections || []).sort(bySort),
       removedSlots: [],
       removedNotes: [],
+      removedSections: [],
       isNew: false
     };
   }
@@ -310,6 +312,7 @@
       sections: [],
       removedSlots: [],
       removedNotes: [],
+      removedSections: [],
       isNew: true
     };
   }
@@ -719,6 +722,98 @@
   }
 
   /* =============================================================
+     Editor — sections (e.g. a Paper Class block per timetable)
+     ============================================================= */
+  var THEME_LABELS = {
+    revision: 'Classes', paper: 'Paper Class', seminar: 'Seminar', discussion: 'Discussion'
+  };
+
+  function renderSections() {
+    var list = $('#section-list');
+    list.textContent = '';
+    show($('#section-empty'), state.draft.sections.length === 0);
+    state.draft.sections.forEach(function (section, index) {
+      list.appendChild(sectionCard(section, index));
+    });
+  }
+
+  function sectionCard(section, index) {
+    var card = el('div', 'admin-item' + (section.published ? '' : ' admin-item--draft'));
+    var head = el('div', 'admin-item__head');
+    var count = state.draft.slots.filter(function (s) { return s.section_id === section.id; }).length;
+    head.appendChild(el('span', 'admin-item__title',
+      THEME_LABELS[section.theme] + ' · ' + (render.bilingual(section.title_en, section.title_si) || '(untitled)') +
+      ' · ' + count + ' class' + (count === 1 ? '' : 'es')));
+    head.appendChild(iconButton('↑', 'Move up', function () {
+      move(state.draft.sections, index, -1); renderSections(); markDirty(); updatePreview();
+    })).disabled = index === 0;
+    head.appendChild(iconButton('↓', 'Move down', function () {
+      move(state.draft.sections, index, 1); renderSections(); markDirty(); updatePreview();
+    })).disabled = index === state.draft.sections.length - 1;
+    head.appendChild(iconButton('🗑', 'Delete section', function () {
+      removeSection(index);
+    }, true));
+    card.appendChild(head);
+
+    var body = el('div', 'admin-item__body');
+    function set(key, rerender) {
+      return function (v) {
+        section[key] = v === '' ? null : v; markDirty(); updatePreview();
+        if (rerender) { renderSections(); renderSlots(); }
+      };
+    }
+    body.appendChild(field('Style', select(THEMES, section.theme, set('theme', true), THEME_LABELS)));
+    var pub = el('div', 'admin-field');
+    pub.appendChild(checkbox('Published', section.published, function (on) {
+      section.published = on; markDirty(); renderSections(); updatePreview();
+    }));
+    body.appendChild(pub);
+    body.appendChild(field('Title (EN) *', input(section.title_en, function (v) {
+      section.title_en = v; markDirty(); updatePreview();
+    })));
+    body.appendChild(field('Title (SI)', input(section.title_si, set('title_si'))));
+    body.appendChild(field('Subtitle (EN)', input(section.subtitle_en, set('subtitle_en'))));
+    body.appendChild(field('Subtitle (SI)', input(section.subtitle_si, set('subtitle_si'))));
+    body.appendChild(field('Description (EN)', textarea(section.body_en, set('body_en')), true));
+    body.appendChild(field('Description (SI)', textarea(section.body_si, set('body_si')), true));
+    body.appendChild(field('Note (EN)', textarea(section.note_en, set('note_en')), true));
+    body.appendChild(field('Note (SI)', textarea(section.note_si, set('note_si')), true));
+    card.appendChild(body);
+    return card;
+  }
+
+  async function removeSection(index) {
+    var section = state.draft.sections[index];
+    var ok = await confirmAction(
+      'Delete this section? Its classes are kept and move out of the section.');
+    if (!ok) return;
+    state.draft.slots.forEach(function (s) {
+      if (s.section_id === section.id) s.section_id = null;
+    });
+    if (!section._new) state.draft.removedSections.push(section.id);
+    state.draft.sections.splice(index, 1);
+    renderSections(); renderSlots(); markDirty(); updatePreview();
+  }
+
+  function addSection() {
+    var hasPaper = state.draft.sections.some(function (s) { return s.theme === 'paper'; });
+    state.draft.sections.push({
+      id: uuid(),
+      _new: true,
+      timetable_id: state.draft.timetable.id,
+      theme: hasPaper ? 'revision' : 'paper',
+      title_en: hasPaper ? '' : '📝 Paper Class',
+      title_si: hasPaper ? null : 'ප්‍රශ්නපත්‍ර පන්තිය',
+      subtitle_en: null, subtitle_si: null,
+      body_en: null, body_si: null,
+      note_en: null, note_si: null,
+      sort_order: state.draft.sections.length,
+      published: true
+    });
+    renderSections(); renderSlots(); markDirty(); updatePreview();
+  }
+
+  /* =============================================================
      Editor — notes
      ============================================================= */
   function renderNotes() {
@@ -835,6 +930,7 @@
 
   function renderEditor() {
     renderDetails();
+    renderSections();
     renderSlots();
     renderNotes();
     updatePreview();
@@ -885,6 +981,11 @@
       if (slot.end_time && !slot.start_time) {
         problems.push(where + 'an end time needs a start time.');
       }
+    });
+
+    draft.sections.forEach(function (section, i) {
+      if (blank(section.title_en)) problems.push('Section ' + (i + 1) + ': title (EN) is required.');
+      if (THEMES.indexOf(section.theme) === -1) problems.push('Section ' + (i + 1) + ': style is invalid.');
     });
 
     draft.notes.forEach(function (note, i) {
@@ -1026,12 +1127,18 @@
         draft.slots.map(function (slot, i) { return slotPayload(slot, i, t.id); }));
       if (s.error) { saveFailed(s.error); return; }
     }
+    if (draft.removedSections.length) {
+      var d3 = await client.from('timetable_sections').delete().in('id', draft.removedSections);
+      if (d3.error) { saveFailed(d3.error); return; }
+      draft.removedSections = [];
+    }
     if (draft.notes.length) {
       var n = await client.from('timetable_notes').upsert(
         draft.notes.map(function (note, i) { return notePayload(note, i, t.id); }));
       if (n.error) { saveFailed(n.error); return; }
     }
 
+    draft.sections.forEach(function (section) { delete section._new; });
     draft.slots.forEach(function (slot, i) { delete slot._new; slot.sort_order = i; });
     draft.notes.forEach(function (note, i) { delete note._new; note.sort_order = i; });
     draft.isNew = false;
@@ -1086,6 +1193,7 @@
       }),
       removedSlots: [],
       removedNotes: [],
+      removedSections: [],
       isNew: true
     };
 
@@ -1123,6 +1231,7 @@
     if (action === 'back-to-list') backToList();
     if (action === 'add-slot') addSlot();
     if (action === 'add-note') addNote();
+    if (action === 'add-section') addSection();
     if (action === 'save') save(false);
     if (action === 'save-publish') save(true);
     if (action === 'confirm-ok') closeConfirm(true);
